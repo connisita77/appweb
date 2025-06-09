@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miss Universe Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-purple-50 text-gray-800">
+  <header class="text-center p-6 bg-purple-700 text-white">
+    <h1 class="text-4xl font-bold">Miss Universe Gallery</h1>
+    <p class="text-sm mt-2">Ganadoras recientes del certamen internacional</p>
+  </header>
+
+  <main class="p-4">
+    <div class="flex justify-center mb-4">
+      <input type="text" id="search" placeholder="Buscar por nombre o país"
+             class="p-2 w-full max-w-md border rounded-md shadow-sm">
+    </div>
+
+    <section id="gallery" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
