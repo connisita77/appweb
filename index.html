@@ -1,26 +1,187 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Miss Universe Gallery</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miss Universe Colombia</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-purple-50 text-gray-800">
-  <header class="text-center p-6 bg-purple-700 text-white">
-    <h1 class="text-4xl font-bold">Miss Universe Gallery</h1>
-    <p class="text-sm mt-2">Ganadoras recientes del certamen internacional</p>
-  </header>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-crown crown-icon"></i>
+                Miss Universe Colombia
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contestants">Candidatas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#statistics">Estadísticas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-  <main class="p-4">
-    <div class="flex justify-center mb-4">
-      <input type="text" id="search" placeholder="Buscar por nombre o país"
-             class="p-2 w-full max-w-md border rounded-md shadow-sm">
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Miss Universe Colombia</h1>
+                <p class="hero-subtitle">Descubre la historia, belleza y talento de las representantes colombianas</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <button class="btn btn-primary" onclick="scrollToContestants()">
+                        <i class="fas fa-search me-2"></i>Explorar Candidatas
+                    </button>
+                    <button class="btn btn-outline-light" onclick="showStats()">
+                        <i class="fas fa-chart-bar me-2"></i>Ver Estadísticas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filters -->
+    <div class="container">
+        <div class="search-section">
+            <h3 class="text-center mb-4 text-dark">
+                <i class="fas fa-search crown-icon"></i>
+                Buscar Candidatas
+            </h3>
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <input type="text" id="searchInput" class="form-control form-control-lg" 
+                           placeholder="Buscar por nombre, ciudad o año...">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <button class="btn btn-primary w-100 btn-lg" onclick="searchContestants()">
+                        <i class="fas fa-search me-2"></i>Buscar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-container">
+            <h5 class="mb-3 text-dark">
+                <i class="fas fa-filter crown-icon"></i>
+                Filtros
+            </h5>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <select id="yearFilter" class="form-select">
+                        <option value="">Todos los años</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select id="placementFilter" class="form-select">
+                        <option value="">Todas las posiciones</option>
+                        <option value="winner">Ganadoras</option>
+                        <option value="runner-up">Finalistas</option>
+                        <option value="top-10">Top 10</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <select id="regionFilter" class="form-select">
+                        <option value="">Todas las regiones</option>
+                        <option value="Bogotá">Bogotá</option>
+                        <option value="Medellín">Medellín</option>
+                        <option value="Cali">Cali</option>
+                        <option value="Barranquilla">Barranquilla</option>
+                        <option value="Cartagena">Cartagena</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
+                        <i class="fas fa-times me-2"></i>Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-3">Cargando candidatas...</p>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section" id="statistics">
+            <h3 class="text-center mb-4 text-dark">
+                <i class="fas fa-chart-bar crown-icon"></i>
+                Estadísticas Miss Universe Colombia
+            </h3>
+            <div class="row" id="statsContainer">
+                <!-- Stats will be populated here -->
+            </div>
+        </div>
+
+        <!-- Contestants Grid -->
+        <section id="contestants">
+            <h3 class="text-center mb-5 text-white">
+                <i class="fas fa-crown crown-icon"></i>
+                Nuestras Candidatas
+            </h3>
+            <div class="row" id="contestantsGrid">
+                <!-- Contestants will be populated here -->
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+                <!-- Pagination will be populated here -->
+            </ul>
+        </nav>
     </div>
 
-    <section id="gallery" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></section>
-  </main>
+    <!-- Modal for Contestant Details -->
+    <div class="modal fade" id="contestantModal" tabindex="-1" aria-labelledby="contestantModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contestantModalLabel">
+                        <i class="fas fa-crown me-2"></i>
+                        Detalles de la Candidata
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Modal content will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <script src="script.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/script.js"></script>
 </body>
 </html>
