@@ -585,6 +585,7 @@ window.addEventListener('load', function() {
     console.log('Aplicación Miss Universe cargada completamente');
 });
 
+
 // ===== MANEJO DE ERRORES =====
 window.addEventListener('error', function(e) {
     console.error('Error en la aplicación:', e.error);
